@@ -11,7 +11,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import Navbar from "../../components/navBar";
+import NavBar from "../../components/Header";
 import { useState } from "react";
 import Carousel from "../../components/carousel";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -43,7 +43,6 @@ export default function ProductPage({ products }: { products: Product }) {
     size: string;
     id: string;
   }
-  console.log(variants);
   const colorsImgs: ColorPair[] = [];
   variants.forEach((v) => {
     const color = v.selectedOptions[0].value;
@@ -69,7 +68,7 @@ export default function ProductPage({ products }: { products: Product }) {
   });
   return (
     <Box>
-      <Navbar />
+      <NavBar />
       <Carousel images={images} selectedColor={selectedColor} />
       <Stack direction="row">
         {colorsImgs.map((c) => {

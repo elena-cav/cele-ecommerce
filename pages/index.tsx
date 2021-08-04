@@ -2,21 +2,13 @@ import { client } from "../utils/Shopify-client";
 import Link from "next/link";
 import { Heading, Box, Link as link } from "@chakra-ui/layout";
 import { Product } from "../types";
-import Navbar from "../components/navBar";
+
+import NavBar from "../components/Header";
 export default function Home({ products }: any) {
   return (
     <Box>
-      <Navbar />
-      Hello
-      {products.map(({ title, id }: Product) => {
-        return (
-          <Box>
-            <Link href={`/${title}`}>
-              <Heading as="h1">{title}</Heading>
-            </Link>
-          </Box>
-        );
-      })}
+      <NavBar />
+      <Heading> Cele Alghero</Heading>
     </Box>
   );
 }
