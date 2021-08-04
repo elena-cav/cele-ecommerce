@@ -1,0 +1,47 @@
+diff --git a/node_modules/swiper/components/pagination/pagination.scss b/node_modules/swiper/components/pagination/pagination.scss
+index 4a977d8..29e998e 100644
+--- a/node_modules/swiper/components/pagination/pagination.scss
++++ b/node_modules/swiper/components/pagination/pagination.scss
+@@ -1,9 +1,9 @@
+ @import '../../swiper-vars.scss';
+ 
+ :root {
+-  /*
++  
+   --swiper-pagination-color: var(--swiper-theme-color);
+-  */
++
+ }
+ .swiper-pagination {
+   position: absolute;
+diff --git a/node_modules/swiper/swiper-bundle.css b/node_modules/swiper/swiper-bundle.css
+index a515d69..4acd161 100644
+--- a/node_modules/swiper/swiper-bundle.css
++++ b/node_modules/swiper/swiper-bundle.css
+@@ -17,7 +17,7 @@
+   font-style: normal;
+ }
+ :root {
+-  --swiper-theme-color: #007aff;
++  --swiper-theme-color: #00afb9;
+ }
+ .swiper-container {
+   margin-left: auto;
+diff --git a/node_modules/swiper/swiper-vars.less b/node_modules/swiper/swiper-vars.less
+index f770792..13d049e 100644
+--- a/node_modules/swiper/swiper-vars.less
++++ b/node_modules/swiper/swiper-vars.less
+@@ -1,2 +1,2 @@
+-@themeColor: #007aff;
++@themeColor: #00afb9;
+ @colors: white #ffffff, black #000000;
+diff --git a/node_modules/swiper/swiper-vars.scss b/node_modules/swiper/swiper-vars.scss
+index 8ec3310..e9be803 100644
+--- a/node_modules/swiper/swiper-vars.scss
++++ b/node_modules/swiper/swiper-vars.scss
+@@ -1,4 +1,4 @@
+-$themeColor: #007aff !default;
++$themeColor: #00afb9 !default;
+ $colors: (
+   'white': #ffffff,
+   'black': #000000,

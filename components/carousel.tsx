@@ -4,30 +4,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.min.css";
 import "swiper/components/pagination/pagination.min.css";
 import { Product, Img } from "../types";
+import { useState } from "react";
+import { createIcon } from "@chakra-ui/react";
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
-{
-  /* <Pick.Product 'Img'> */
-}
-// export default function Carousel({images} : {images: Product['images']}) {
+type Color = {
+  src: string;
+};
 
-export default function Carousel({ images }: { images: Img[] }) {
-  return (
-    <Box maxW={["320px", "480px"]}>
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={0}
-        pagination={{ clickable: true, dynamicBullets: true }}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
-      >
-        {images.map((image: Img) => {
-          return (
-            <SwiperSlide key={image.id}>
-              <Image src={image.src}></Image>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-    </Box>
-  );
+export default function Carousel({
+  images,
+  selectedColor,
+}: {
+  images: Img[];
+  selectedColor: Color;
+}) {
+  return <Image h={["200px", "400px"]} src={selectedColor.src}></Image>;
 }

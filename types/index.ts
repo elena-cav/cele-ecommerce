@@ -19,7 +19,15 @@ export type Variants = {
   compareAtPrice: string
   price: string
   selectedOptions: SelectedOptions[]
+  image: Image
+  id: string
 }
+export type Image = {
+  src: string
+  id: string
+  altText: string
+  }
+
 export type SelectedOptions = {
 name: string
 value: string
