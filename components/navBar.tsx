@@ -23,30 +23,7 @@ export default function Navbar(props) {
 
   return (
     <Box>
-      <Box display={{ base: "block", md: "none" }} onClick={toggle}>
-        {isOpen ? <CloseIcon /> : <MenuIcon />}
-      </Box>
-
-      <Flex
-        as="nav"
-        align="center"
-        justify="space-between"
-        wrap="wrap"
-        w="100%"
-        mb={8}
-        p={8}
-        bg={["primary.500", "primary.500", "transparent", "transparent"]}
-        color={["white", "white", "primary.700", "primary.700"]}
-        {...props}
-      >
-        <GiHamburgerMenu
-          w="100px"
-          color={["white", "white", "primary.500", "primary.500"]}
-        />
-        <Box display={{ base: "block", md: "none" }} onClick={toggle}>
-          {isOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
-        </Box>
-
+      <Flex>
         <Box bg="gray">
           <Button onClick={onToggle} mr="4">
             Donna

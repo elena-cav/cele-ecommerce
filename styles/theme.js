@@ -17,6 +17,10 @@ export const myNewTheme = extendTheme({
       a: {
         color: "teal.500",
       },
+      button: {
+        borderRadius:"none",
+
+      }
     },
   },
 

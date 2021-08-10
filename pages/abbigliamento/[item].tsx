@@ -10,6 +10,11 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
 } from "@chakra-ui/react";
 import NavBar from "../../components/Header";
 import { useState } from "react";
@@ -19,11 +24,43 @@ import { Product, Img } from "../../types";
 import { client } from "../../utils/Shopify-client";
 import { GetServerSideProps } from "next";
 import { addProductToCart } from "../../utils/Cart";
-export default function ProductPage({ products }: { products: Product }) {
+import * as api from "../../utils/api";
+
+export default function ProductPage({
+  products,
+  otherProducts,
+}: {
+  products: Product;
+  otherProducts: any;
+}) {
   const { description, images, title, variants, vendor } = products;
+  console.log(variants);
+
+  let hasSize = true;
+  variants.forEach((v) => {
+    if (v.selectedOptions.length <= 1) {
+      hasSize = false;
+    }
+  });
+  if (variants.length === 1 || !hasSize) {
+    return (
+      <Box>
+        <NavBar />
+        <Text>Questo propotto non e' disponibile</Text>
+      </Box>
+    );
+  }
+  const [selectedSize, setSize] = useState("");
+  const [selectedId, setId] = useState("");
+  const [alert, toggleAlert] = useState(false);
   const addToCart = async () => {
+    if (selectedSize === "") {
+      toggleAlert(true);
+      return;
+    }
     try {
       console.log("Fired");
+      console.log(window.localStorage);
       addProductToCart([
         {
           variantId: selectedId,
@@ -44,10 +81,14 @@ export default function ProductPage({ products }: { products: Product }) {
     id: string;
   }
   const colorsImgs: ColorPair[] = [];
-  variants.forEach((v) => {
-    const color = v.selectedOptions[0].value;
-    const src = v.image.src;
+  const sizes: SizePair[] = [];
 
+  variants.forEach((v) => {
+    const selectedOptions = v.selectedOptions;
+    const isColor = (e: any) => e.name === "Colore";
+    const index = selectedOptions.findIndex(isColor);
+    const color = v.selectedOptions[index].value;
+    const src = v.image.src;
     if (!colorsImgs.some((e) => e.color === color)) {
       colorsImgs.push({ color, src });
     }
@@ -57,16 +98,21 @@ export default function ProductPage({ products }: { products: Product }) {
     color: colorsImgs[0].color,
     src: colorsImgs[0].src,
   });
-  const [selectedSize, setSize] = useState("");
-  const [selectedId, setId] = useState("");
-  const sizes: SizePair[] = [];
+
   variants.forEach((v) => {
-    const color = v.selectedOptions[0].value;
-    const size = v.selectedOptions[1].value;
+    const selectedOptions = v.selectedOptions;
+    const isColor = (e: any) => e.name === "Colore";
+    const CIndex = selectedOptions.findIndex(isColor);
+    const isSize = (e: any) => e.name === "Taglia" || e.name === "Misura";
+    const SIndex = selectedOptions.findIndex(isSize);
+    const color = selectedOptions[CIndex].value;
+    const size = selectedOptions[SIndex].value;
     const id = v.id;
     if (color === selectedColor.color) sizes.push({ size, id });
   });
+  console.log("OTHER", otherProducts);
   return (
+    // <Text>Hi</Text>
     <Box>
       <NavBar />
       <Carousel images={images} selectedColor={selectedColor} />
@@ -74,6 +120,7 @@ export default function ProductPage({ products }: { products: Product }) {
         {colorsImgs.map((c) => {
           return (
             <Image
+              key={c.src}
               boxSize="70px"
               objectFit="cover"
               src={c.src}
@@ -127,11 +174,33 @@ export default function ProductPage({ products }: { products: Product }) {
         </MenuList>
       </Menu>
       <Button onClick={addToCart}>Acquista</Button>
+      {alert && (
+        <Alert status="error">
+          <AlertIcon boxSize="15px" />
+          <AlertDescription fontSize="sm">
+            Seleziona una taglia prima di effettuare l'acquisto
+          </AlertDescription>
+          <CloseButton
+            onClick={() => {
+              toggleAlert(false);
+            }}
+            position="absolute"
+            right="8px"
+            top="4px"
+          />
+        </Alert>
+      )}
     </Box>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const products = await client.product.fetch(query.item);
-  return { props: { products: JSON.parse(JSON.stringify(products)) } };
+  const otherProducts = await api.fetchProducts();
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+      otherProducts,
+    },
+  };
 };
