@@ -17,6 +17,8 @@ import {
 } from "@chakra-ui/react";
 import Router from "next/router";
 import { useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
+
 import {
   HamburgerIcon,
   CloseIcon,
@@ -31,14 +33,19 @@ export default function NavBar() {
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(-1);
 
   const getCartItems = async () => {
-    const { lineItems } = await getCart();
-    setNumberOfItemsInCart(lineItems.length);
+    const cart = await getCart();
+    if (cart) {
+      setNumberOfItemsInCart(cart.lineItems.length);
+    }
   };
 
   if (numberOfItemsInCart === -1) {
     getCartItems();
   }
-
+  const { user, error, isLoading } = useUser();
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+  const userLink = user ? "/cliente/profilo" : "/api/auth/login";
   return (
     <Box>
       <Flex
@@ -86,7 +93,7 @@ export default function NavBar() {
           direction={"row"}
           spacing={6}
         >
-          <Link as={"a"} fontSize={"xl"} variant={"link"} href={"#"}>
+          <Link as={"a"} fontSize={"xl"} variant={"link"} href={userLink}>
             <AiOutlineUser />
           </Link>
           <Link as={"a"} fontSize={"xl"} variant={"link"} href={"#"}>
