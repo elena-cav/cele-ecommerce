@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Heading, Text, Box, Link as link } from "@chakra-ui/layout";
 import { useUser } from "@auth0/nextjs-auth0";
 
-import NavBar from "../components/Header";
 export default function Home({ products }: any) {
   const { user, error, isLoading } = useUser();
   if (isLoading) return <div>Loading...</div>;
@@ -11,7 +10,6 @@ export default function Home({ products }: any) {
 
   return (
     <Box>
-      <NavBar />
       <Heading> Cele Alghero</Heading>
       <Box>
         {user ? (

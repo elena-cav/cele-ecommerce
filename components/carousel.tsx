@@ -1,8 +1,5 @@
 import { Flex, Spacer, Box, Text, Image } from "@chakra-ui/react";
-import SwiperCore, { Pagination } from "swiper/core";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper.min.css";
-import "swiper/components/pagination/pagination.min.css";
+
 import { Product, Img } from "../types";
 import { useState } from "react";
 import { createIcon } from "@chakra-ui/react";

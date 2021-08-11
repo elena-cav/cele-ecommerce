@@ -42,8 +42,6 @@ export default function NavBar() {
   if (numberOfItemsInCart === -1) {
     getCartItems();
   }
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>{error.message}</div>;
   const userLink = user ? "/cliente/profilo" : "/api/auth/login";
   return (
     <Box>
@@ -84,7 +82,7 @@ export default function NavBar() {
             </Flex>
             <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
               <Text
-                textAlign={useBreakpointValue({ base: "center", md: "left" })}
+                // textAlign={useBreakpointValue({ base: "center", md: "left" })}
                 fontFamily={"heading"}
                 color={"black"}
               >

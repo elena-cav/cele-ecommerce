@@ -16,7 +16,6 @@ import {
   AlertDescription,
   CloseButton,
 } from "@chakra-ui/react";
-import NavBar from "../../components/Header";
 import { useState } from "react";
 import Carousel from "../../components/carousel";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -48,6 +47,16 @@ export default function ProductPage({
   const [selectedSize, setSize] = useState("");
   const [selectedId, setId] = useState("");
   const [alert, toggleAlert] = useState(false);
+  variants.forEach((v) => {
+    const selectedOptions = v.selectedOptions;
+    const isColor = (e: any) => e.name === "Colore";
+    const index = selectedOptions.findIndex(isColor);
+    const color = v.selectedOptions[index].value;
+    const src = v.image.src;
+    if (!colorsImgs.some((e) => e.color === color)) {
+      colorsImgs.push({ color, src });
+    }
+  });
   const [selectedColor, setColor] = useState({
     color: colorsImgs[0].color,
     src: colorsImgs[0].src,
@@ -61,7 +70,6 @@ export default function ProductPage({
   if (variants.length === 1 || !hasSize) {
     return (
       <Box>
-        <NavBar />
         <Text>Questo propotto non e' disponibile</Text>
       </Box>
     );
@@ -89,17 +97,6 @@ export default function ProductPage({
   variants.forEach((v) => {
     const selectedOptions = v.selectedOptions;
     const isColor = (e: any) => e.name === "Colore";
-    const index = selectedOptions.findIndex(isColor);
-    const color = v.selectedOptions[index].value;
-    const src = v.image.src;
-    if (!colorsImgs.some((e) => e.color === color)) {
-      colorsImgs.push({ color, src });
-    }
-  });
-
-  variants.forEach((v) => {
-    const selectedOptions = v.selectedOptions;
-    const isColor = (e: any) => e.name === "Colore";
     const CIndex = selectedOptions.findIndex(isColor);
     const isSize = (e: any) => e.name === "Taglia" || e.name === "Misura";
     const SIndex = selectedOptions.findIndex(isSize);
@@ -112,7 +109,6 @@ export default function ProductPage({
   return (
     // <Text>Hi</Text>
     <Box>
-      <NavBar />
       <Carousel images={images} selectedColor={selectedColor} />
       <Stack direction="row">
         {colorsImgs.map((c) => {

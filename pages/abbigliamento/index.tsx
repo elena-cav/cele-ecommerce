@@ -2,11 +2,9 @@ import { client } from "../../utils/Shopify-client";
 import Link from "next/link";
 import { Heading, Box, Image, Text } from "@chakra-ui/react";
 import { Product } from "../../types";
-import NavBar from "../../components/Header";
 export default function Home({ products }: any) {
   return (
     <Box>
-      <NavBar />
       {products.map(({ title, id, images, variants, vendor }: Product) => {
         return (
           <Box key={id}>
