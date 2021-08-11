@@ -39,43 +39,21 @@ export default function Profile() {
   const initialValues = {
     firstName: "",
     lastName: "",
-    age: 0,
-    employed: false,
-    favoriteColor: "",
-    toppings: ["tuna"],
+    email: user ? user.name : "",
     notes: "",
-    employedd: false,
     select: "",
-    foo: 23,
-    bar: "",
   };
 
   const today = new Date();
-
-  // function parseDateString(value, originalValue) {
-  //   const parsedDate = isDate(originalValue)
-  //     ? originalValue
-  //     : parse(originalValue, "yyyy-MM-dd", new Date());
-
-  //   return parsedDate;
-  // }
-
-  // const schema = Yup.object({
-  //   birthday: Yup.date().transform(parseDateString).max(today),
-  // });
-
-  // const isValid = schema.validateSync({
-  //   birthday: "2020-02-02",
-  // });
   const onSubmit = () => {
     console.log("submit");
   };
 
   const validationSchema = Yup.object({
-    Nome: Yup.string().required(),
-    lastName: Yup.string().required(),
-    DOB: Yup.number().required().max(today),
-    email: Yup.string().email().required(),
+    Nome: Yup.string().required("Completa il nome"),
+    lastName: Yup.string().required("Completa il cognome"),
+    DOB: Yup.number().max(today),
+    email: Yup.string().email(),
     password: Yup.boolean().equals([true]),
   });
   return (
@@ -98,9 +76,11 @@ export default function Profile() {
           <InputControl name="firstName" label="Nome" />
           <InputControl name="lastName" label="Cognome" />
           <Input type="date" name="DOB" label="Data di nascita" />
-          <InputControl name="Email" label="Email" />
-
-          <CheckboxSingleControl name="employed">
+          {/* <CheckboxSingleControl name="emailcb">
+            Modifica l'Email
+          </CheckboxSingleControl> */}
+          <Input name="email" label="Email" />
+          <CheckboxSingleControl name="password">
             Modifica la Password
           </CheckboxSingleControl>
         </Box>
