@@ -35,7 +35,23 @@ export default function ProductPage({
 }) {
   const { description, images, title, variants, vendor } = products;
   console.log(variants);
-
+  interface ColorPair {
+    color: string;
+    src: string;
+  }
+  interface SizePair {
+    size: string;
+    id: string;
+  }
+  const colorsImgs: ColorPair[] = [];
+  const sizes: SizePair[] = [];
+  const [selectedSize, setSize] = useState("");
+  const [selectedId, setId] = useState("");
+  const [alert, toggleAlert] = useState(false);
+  const [selectedColor, setColor] = useState({
+    color: colorsImgs[0].color,
+    src: colorsImgs[0].src,
+  });
   let hasSize = true;
   variants.forEach((v) => {
     if (v.selectedOptions.length <= 1) {
@@ -50,9 +66,7 @@ export default function ProductPage({
       </Box>
     );
   }
-  const [selectedSize, setSize] = useState("");
-  const [selectedId, setId] = useState("");
-  const [alert, toggleAlert] = useState(false);
+
   const addToCart = async () => {
     if (selectedSize === "") {
       toggleAlert(true);
@@ -72,17 +86,6 @@ export default function ProductPage({
     }
   };
 
-  interface ColorPair {
-    color: string;
-    src: string;
-  }
-  interface SizePair {
-    size: string;
-    id: string;
-  }
-  const colorsImgs: ColorPair[] = [];
-  const sizes: SizePair[] = [];
-
   variants.forEach((v) => {
     const selectedOptions = v.selectedOptions;
     const isColor = (e: any) => e.name === "Colore";
@@ -92,11 +95,6 @@ export default function ProductPage({
     if (!colorsImgs.some((e) => e.color === color)) {
       colorsImgs.push({ color, src });
     }
-  });
-
-  const [selectedColor, setColor] = useState({
-    color: colorsImgs[0].color,
-    src: colorsImgs[0].src,
   });
 
   variants.forEach((v) => {

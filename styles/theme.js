@@ -9,10 +9,13 @@ export const myNewTheme = extendTheme({
   },
   styles: {
     global: {
+      borderRadius: 0,
+
       "html, body": {
         color: "gray.600",
         lineHeight: "tall",
         bg: "#faf9f8",
+        borderRadius: 0,
       },
       a: {
         color: "teal.500",
@@ -21,7 +24,10 @@ export const myNewTheme = extendTheme({
         borderRadius: "none",
       },
       input: {
-        borderRadius: "none",
+        borderRadius: 0,
+      },
+      form: {
+        borderRadius: 0,
       },
     },
   },

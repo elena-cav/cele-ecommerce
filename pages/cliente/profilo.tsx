@@ -1,5 +1,6 @@
 import { client } from "../../utils/Shopify-client";
 import Link from "next/link";
+import * as api from "../../utils/api";
 import {
   Heading,
   Box,
@@ -8,6 +9,8 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Spacer,
+  Select,
 } from "@chakra-ui/react";
 import {
   CheckboxContainer,
@@ -30,32 +33,171 @@ import { Product } from "../../types";
 import NavBar from "../../components/Header";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Formik } from "formik";
-import { parse, isDate } from "date-fns";
-
+import styles from "../../pages/Form.module.css";
+import { useState } from "react";
 export default function Profile() {
   const { user, error, isLoading } = useUser();
+  const [province, setProvince] = useState("");
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
+
+  const options = [
+    "Agrigento",
+    "Alessandria",
+    "Ancona",
+    "Aosta",
+    "L'Aquila",
+    "Arezzo",
+    " Ascoli-Piceno",
+    "Asti",
+    "Avellino",
+    "Bari",
+    "Barletta-Andria-Trani",
+    "Belluno",
+    "Benevento",
+    "Bergamo",
+    "Biella",
+    "Bologna",
+    "Bolzano",
+    "Brescia",
+    "Brindisi",
+    "Cagliari",
+    "Caltanissetta",
+    "Campobasso",
+    "Carbonia Iglesias",
+    "Caserta",
+    "Catania",
+    "Catanzaro",
+    "Chieti",
+    "Como",
+    "Cosenza",
+    "Cremona",
+    "Crotone",
+    "Cuneo",
+    "Enna",
+    "Fermo",
+    "Ferrara",
+    "Firenze",
+    "Foggia",
+    "Forli-Cesena",
+    "Frosinone",
+    "Genova",
+    "Gorizia",
+    "Grosseto",
+    "Imperia",
+    "Isernia",
+    "La-Spezia",
+    "Latina",
+    "Lecce",
+    "Lecco",
+    "Livorno",
+    "Lodi",
+    "Lucca",
+    "Macerata",
+    "Mantova",
+    "Massa-Carrara",
+    "Matera",
+    "Medio Campidano",
+    "Messina",
+    "Milano",
+    "Modena",
+    "Monza-Brianza",
+    "Napoli",
+    "Novara",
+    "Nuoro",
+    "Ogliastra",
+    "Olbia Tempio",
+    "Oristano",
+    "Padova",
+    "Palermo",
+    "Parma",
+    "Pavia",
+    "Perugia",
+    "Pesaro-Urbino",
+    "Pescara",
+    "Piacenza",
+    "Pisa",
+    "Pistoia",
+    "Pordenone",
+    "Potenza",
+    "Prato",
+    "Ragusa",
+    "Ravenna",
+    "Reggio-Calabria",
+    "Reggio-Emilia",
+    "Rieti",
+    "Rimini",
+    "Roma",
+    "Rovigo",
+    "Salerno",
+    "Sassari",
+    "Savona",
+    "Siena",
+    "Siracusa",
+    "Sondrio",
+    "Taranto",
+    "Teramo",
+    "Terni",
+    "Torino",
+    "Trapani",
+    "Trento",
+    "Treviso",
+    "Trieste",
+    "Udine",
+    "Varese",
+    "Venezia",
+    "Verbania",
+    "Vercelli",
+    "Verona",
+    " Vibo-Valentia",
+    "Vicenza",
+    "Viterbo",
+  ];
   const initialValues = {
     firstName: "",
     lastName: "",
-    email: user ? user.name : "",
     notes: "",
     select: "",
   };
 
-  const today = new Date();
-  const onSubmit = () => {
-    console.log("submit");
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const onSubmit = (values: any) => {
+    sleep(300).then(() => {
+      console.log(user, "USER");
+      const newCostumer = {
+        customer: {
+          first_name: values.firstName,
+          last_name: values.lastName,
+          email: user.name,
+          phone: values.phone,
+          verified_email: true,
+          addresses: [
+            {
+              address1: values.address1,
+              city: values.city,
+              province: province,
+              zip: values.zip,
+              country: values.country,
+            },
+          ],
+          send_email_welcome: false,
+        },
+      };
+      api.postCostumer(newCostumer).catch((err) => {
+        console.log(err);
+      });
+    });
   };
 
   const validationSchema = Yup.object({
-    Nome: Yup.string().required("Completa il nome"),
-    lastName: Yup.string().required("Completa il cognome"),
-    DOB: Yup.number().max(today),
-    email: Yup.string().email(),
-    password: Yup.boolean().equals([true]),
+    firstName: Yup.string().required("Inserisci il tuo nome"),
+    lastName: Yup.string().required("Inserisci il tuo cognome"),
   });
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProvince(event.target.value);
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -65,7 +207,6 @@ export default function Profile() {
       {({ handleSubmit, values, errors }) => (
         <Box
           borderWidth="1px"
-          rounded="lg"
           shadow="1px 1px 3px rgba(0,0,0,0.3)"
           maxWidth={800}
           p={6}
@@ -74,15 +215,49 @@ export default function Profile() {
           onSubmit={handleSubmit as any}
         >
           <InputControl name="firstName" label="Nome" />
-          <InputControl name="lastName" label="Cognome" />
-          <Input type="date" name="DOB" label="Data di nascita" />
-          {/* <CheckboxSingleControl name="emailcb">
-            Modifica l'Email
-          </CheckboxSingleControl> */}
-          <Input name="email" label="Email" />
-          <CheckboxSingleControl name="password">
-            Modifica la Password
-          </CheckboxSingleControl>
+          <InputControl
+            borderRadius={0}
+            border="none"
+            name="lastName"
+            label="Cognome"
+          />
+          <InputControl
+            inputProps={{ type: "date" }}
+            name="DOB"
+            borderRadius={0}
+            label="Data di nascita"
+          />
+          <InputControl
+            rounded="0"
+            borderRadius={0}
+            name="phone"
+            label="Telefono"
+          />
+          <Spacer />
+          <InputControl name="address1" label="Indirizzo" />
+          <InputControl
+            style={{ borderRadius: 0, border: "none" }}
+            name="address2"
+          />
+          <InputControl name="city" label="Citta`" />
+          <FormLabel>Provincia</FormLabel>
+          <Select
+            value={province}
+            label="Provincia"
+            name="province"
+            onChange={handleChange}
+          >
+            {options.map((opt) => {
+              return <option key={opt}>{opt}</option>;
+            })}
+          </Select>
+          <InputControl style={{ borderRadius: 0 }} name="zip" label="CAP" />
+          <InputControl
+            style={{ borderRadius: 0 }}
+            name="country"
+            label="Paese"
+          />
+          <SubmitButton style={{ borderRadius: 0 }}>Submit</SubmitButton>
         </Box>
       )}
     </Formik>

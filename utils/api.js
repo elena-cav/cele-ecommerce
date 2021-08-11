@@ -18,35 +18,8 @@ export const fetchCustomers = () => {
     return data.customers;
   });
 };
-
-export const fetchProductsByKeyword = (keyword) => {
-  return request.get(`/products/${keyword}`).then(({ data }) => {
-    return data.products;
+export const postCostumer = (body) => {
+  return request.post("/customers.json", body).then(({ data }) => {
+    return data.customers;
   });
 };
-
-// POST /admin/api/2021-07/customers.json
-// {
-//   "customer": {
-//     "first_name": "Steve",
-//     "last_name": "Lastnameson",
-//     "email": "steve.lastnameson@example.com",
-//     "phone": "+15142546011",
-//     "verified_email": true,
-//     "addresses": [
-//       {
-//         "address1": "123 Oak St",
-//         "city": "Ottawa",
-//         "province": "ON",
-//         "phone": "555-1212",
-//         "zip": "123 ABC",
-//         "last_name": "Lastnameson",
-//         "first_name": "Mother",
-//         "country": "CA"
-//       }
-//     ],
-//     "password": "newpass",
-//     "password_confirmation": "newpass",
-//     "send_email_welcome": false
-//   }
-// }

@@ -11,7 +11,6 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  useColorModeValue,
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -29,8 +28,9 @@ import { BsHeart, BsBag } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { getCart } from "../utils/Cart";
 export default function NavBar() {
-  const { isOpen, onToggle } = useDisclosure();
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(-1);
+  const { isOpen, onToggle } = useDisclosure();
+  const { user, error, isLoading } = useUser();
 
   const getCartItems = async () => {
     const cart = await getCart();
@@ -42,80 +42,91 @@ export default function NavBar() {
   if (numberOfItemsInCart === -1) {
     getCartItems();
   }
-  const { user, error, isLoading } = useUser();
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  // if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>{error.message}</div>;
   const userLink = user ? "/cliente/profilo" : "/api/auth/login";
   return (
     <Box>
-      <Flex
-        bg={useColorModeValue("white", "gray.800")}
-        color={useColorModeValue("gray.600", "white")}
-        minH={"60px"}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={"solid"}
-        borderColor={useColorModeValue("gray.200", "gray.900")}
-        align={"center"}
-      >
-        <Flex
-          flex={{ base: 1, md: "auto" }}
-          ml={{ base: -2 }}
-          display={{ base: "flex", md: "none" }}
-        >
-          <IconButton
-            onClick={onToggle}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={"ghost"}
-            aria-label={"Toggle Navigation"}
-          />
-        </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color={useColorModeValue("gray.800", "white")}
+      {isLoading ? (
+        <div>Loading</div>
+      ) : error ? (
+        <div>{error.message}</div>
+      ) : (
+        <Box>
+          <Flex
+            bg={"white"}
+            color={"black"}
+            minH={"60px"}
+            py={{ base: 2 }}
+            px={{ base: 4 }}
+            borderBottom={1}
+            borderStyle={"solid"}
+            borderColor={"gray"}
+            align={"center"}
           >
-            Logo
-          </Text>
+            <Flex
+              flex={{ base: 1, md: "auto" }}
+              ml={{ base: -2 }}
+              display={{ base: "flex", md: "none" }}
+            >
+              <IconButton
+                onClick={onToggle}
+                icon={
+                  isOpen ? (
+                    <CloseIcon w={3} h={3} />
+                  ) : (
+                    <HamburgerIcon w={5} h={5} />
+                  )
+                }
+                variant={"ghost"}
+                aria-label={"Toggle Navigation"}
+              />
+            </Flex>
+            <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
+              <Text
+                textAlign={useBreakpointValue({ base: "center", md: "left" })}
+                fontFamily={"heading"}
+                color={"black"}
+              >
+                Logo
+              </Text>
 
-          <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav />
-          </Flex>
-        </Flex>
+              <Flex display={{ base: "none", md: "flex" }} ml={10}>
+                <DesktopNav />
+              </Flex>
+            </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Link as={"a"} fontSize={"xl"} variant={"link"} href={userLink}>
-            <AiOutlineUser />
-          </Link>
-          <Link as={"a"} fontSize={"xl"} variant={"link"} href={"#"}>
-            <BsHeart />
-          </Link>
-          <Link
-            onClick={async () => {
-              const cart = await getCart();
-              console.log(cart);
-              //   const { webUrl } = await getCart();
-              //   Router.replace(webUrl);
-            }}
-            as={"a"}
-            fontSize={"xl"}
-            variant={"link"}
-            href={"#"}
-          >
-            {numberOfItemsInCart !== -1 && <Text>{numberOfItemsInCart}</Text>}
-            <BsBag />
-          </Link>
+            <Stack
+              flex={{ base: 1, md: 0 }}
+              justify={"flex-end"}
+              direction={"row"}
+              spacing={6}
+            >
+              <Link as={"a"} fontSize={"xl"} variant={"link"} href={userLink}>
+                <AiOutlineUser />
+              </Link>
+              <Link as={"a"} fontSize={"xl"} variant={"link"} href={"#"}>
+                <BsHeart />
+              </Link>
+              <Link
+                onClick={async () => {
+                  const cart = await getCart();
+                  console.log(cart);
+                  //   const { webUrl } = await getCart();
+                  //   Router.replace(webUrl);
+                }}
+                as={"a"}
+                fontSize={"xl"}
+                variant={"link"}
+                href={"#"}
+              >
+                {numberOfItemsInCart !== -1 && (
+                  <Text>{numberOfItemsInCart}</Text>
+                )}
+                <BsBag />
+              </Link>
 
-          {/* <Button
+              {/* <Button
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
             fontWeight={600}
@@ -128,20 +139,22 @@ export default function NavBar() {
           >
             Sign Up
           </Button> */}
-        </Stack>
-      </Flex>
+            </Stack>
+          </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
-      </Collapse>
+          <Collapse in={isOpen} animateOpacity>
+            <MobileNav />
+          </Collapse>
+        </Box>
+      )}
     </Box>
   );
 }
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue("gray.600", "gray.200");
-  const linkHoverColor = useColorModeValue("gray.800", "white");
-  const popoverContentBgColor = useColorModeValue("white", "gray.800");
+  const linkColor = "black";
+  const linkHoverColor = "gray";
+  const popoverContentBgColor = "gray";
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -194,13 +207,13 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       role={"group"}
       display={"block"}
       p={2}
-      _hover={{ bg: useColorModeValue("#00D5E0", "gray.900") }}
+      _hover={{ bg: "#00D5E0" }}
     >
       <Stack direction={"row"} align={"center"}>
         <Box>
           <Text
             transition={"all .3s ease"}
-            _groupHover={{ color: "white" }}
+            _groupHover={{ color: "gray" }}
             fontWeight={500}
           >
             {label}
@@ -216,7 +229,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
           align={"center"}
           flex={1}
         >
-          <Icon color={"white"} w={5} h={5} as={ChevronRightIcon} />
+          <Icon color={"gray"} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
     </Link>
@@ -225,11 +238,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 
 const MobileNav = () => {
   return (
-    <Stack
-      bg={useColorModeValue("white", "gray.800")}
-      p={4}
-      display={{ md: "none" }}
-    >
+    <Stack bg={"white"} p={4} display={{ md: "none" }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -252,10 +261,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           textDecoration: "none",
         }}
       >
-        <Text
-          fontWeight={600}
-          color={useColorModeValue("gray.600", "gray.200")}
-        >
+        <Text fontWeight={600} color={"black"}>
           {label}
         </Text>
         {children && (
@@ -275,7 +281,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           pl={4}
           borderLeft={1}
           borderStyle={"solid"}
-          borderColor={useColorModeValue("gray.200", "gray.700")}
+          borderColor={"gray"}
           align={"start"}
         >
           {children &&
