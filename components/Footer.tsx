@@ -9,6 +9,7 @@ import {
   VisuallyHidden,
   Input,
   IconButton,
+  AspectRatio,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
@@ -107,18 +108,15 @@ export default function Footer() {
             </Stack>
           </Stack>
           <Stack align={"flex-start"}>
-            <ListHeader>Company</ListHeader>
-            <Link href={"#"}>About us</Link>
-            <Link href={"#"}>Blog</Link>
-            <Link href={"#"}>Contact us</Link>
-            <Link href={"#"}>Pricing</Link>
-            <Link href={"#"}>Testimonials</Link>
+            <ListHeader>La nostra storia</ListHeader>
+            <Link href={"#"}>La boutique</Link>
+            <Link href={"#"}>Contatti</Link>
           </Stack>
           <Stack align={"flex-start"}>
             <ListHeader>Support</ListHeader>
-            <Link href={"#"}>Help Center</Link>
-            <Link href={"#"}>Terms of Service</Link>
-            <Link href={"#"}>Legal</Link>
+            <Link href={"#"}>Guida taglie</Link>
+            <Link href={"#"}>Resi e rimborsi</Link>
+            <Link href={"#"}>Tempi e costi di spedizione</Link>
             <Link href={"#"}>Privacy Policy</Link>
             <Link href={"#"}>Satus</Link>
           </Stack>
@@ -133,15 +131,13 @@ export default function Footer() {
                   bg: "whiteAlpha.300",
                 }}
               />
-              <iframe
-                width="540"
-                height="305"
-                src="https://5c632b7d.sibforms.com/serve/MUIEAGVXYJIgZS8wI77_cIgQc1Xoh-3LZHWOpQpF_HmDWr4UBmRwZWvWTnz3cKu0YTbBa0nfnvwwI_Ts9Kc7q5OwlkqzTjq19thAg7SGovor8BLj_e6slPIGiOvobJ9gjfmJl6UEZZXFiZeIlqZgLHuwaC9VSaaXG9D4BixJWm0xQ9NjHzRKyj89NJtPFDqUGYQDeMzoZAW8_Y2-"
-                frameborder="0"
-                scrolling="auto"
-                allowfullscreen
-                style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"
-              ></iframe>
+              <AspectRatio ratio={16 / 9}>
+                <iframe
+                  title="naruto"
+                  src="https://5c632b7d.sibforms.com/serve/MUIEAGVXYJIgZS8wI77_cIgQc1Xoh-3LZHWOpQpF_HmDWr4UBmRwZWvWTnz3cKu0YTbBa0nfnvwwI_Ts9Kc7q5OwlkqzTjq19thAg7SGovor8BLj_e6slPIGiOvobJ9gjfmJl6UEZZXFiZeIlqZgLHuwaC9VSaaXG9D4BixJWm0xQ9NjHzRKyj89NJtPFDqUGYQDeMzoZAW8_Y2-"
+                />
+              </AspectRatio>
+
               <IconButton
                 bg={useColorModeValue("green.400", "green.800")}
                 color={useColorModeValue("white", "gray.800")}

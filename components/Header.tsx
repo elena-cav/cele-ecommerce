@@ -13,6 +13,7 @@ import {
   PopoverContent,
   useBreakpointValue,
   useDisclosure,
+  Spinner,
 } from "@chakra-ui/react";
 import Router from "next/router";
 import { useState } from "react";
@@ -27,7 +28,9 @@ import {
 import { BsHeart, BsBag } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { getCart } from "../utils/Cart";
-export default function NavBar() {
+import { LoadingSpinner } from "../components/Spinner";
+
+export default function NavBar(spinner: any) {
   const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(-1);
   const { isOpen, onToggle } = useDisclosure();
   const { user, error, isLoading } = useUser();
@@ -42,11 +45,18 @@ export default function NavBar() {
   if (numberOfItemsInCart === -1) {
     getCartItems();
   }
+
   const userLink = user ? "/cliente/profilo" : "/api/auth/login";
   return (
     <Box>
       {isLoading ? (
-        <div>Loading</div>
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
       ) : error ? (
         <div>{error.message}</div>
       ) : (
@@ -81,13 +91,14 @@ export default function NavBar() {
               />
             </Flex>
             <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-              <Text
+              <Link
                 // textAlign={useBreakpointValue({ base: "center", md: "left" })}
                 fontFamily={"heading"}
                 color={"black"}
+                href={"/"}
               >
                 Logo
-              </Text>
+              </Link>
 
               <Flex display={{ base: "none", md: "flex" }} ml={10}>
                 <DesktopNav />
