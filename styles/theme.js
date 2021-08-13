@@ -29,6 +29,7 @@ export const myNewTheme = extendTheme({
     button: {
       borderRadius: "none",
       rounded: "none",
+      _focus: { boxShadow: "none" },
     },
     input: {
       borderRadius: 0,

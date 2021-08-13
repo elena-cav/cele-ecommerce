@@ -1,7 +1,7 @@
 import axios from "axios";
 const request = axios.create({
   baseURL:
-    "https://d0d730242e23db6e1f42d8c7d0d6c526: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@cele-alghero.myshopify.com/admin/api/2021-07",
+    "https://5926a255671519b4bb0562e47eadd063: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@cele-boutique-alghero.myshopify.com/admin/api/2021-07",
 
   //   headers: {
   //     'Content-Type': 'application/json',

@@ -122,23 +122,25 @@ export default function Footer() {
           </Stack>
           <Stack align={"flex-start"}>
             <ListHeader>Stay up to date</ListHeader>
-            <Stack direction={"row"}>
-              <Input
+            {/* <Stack direction={"row"}> */}
+            {/* <Input
                 placeholder={"Your email address"}
                 bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
                 border={0}
                 _focus={{
                   bg: "whiteAlpha.300",
                 }}
-              />
-              <AspectRatio ratio={16 / 9}>
-                <iframe
-                  title="naruto"
-                  src="https://5c632b7d.sibforms.com/serve/MUIEAGVXYJIgZS8wI77_cIgQc1Xoh-3LZHWOpQpF_HmDWr4UBmRwZWvWTnz3cKu0YTbBa0nfnvwwI_Ts9Kc7q5OwlkqzTjq19thAg7SGovor8BLj_e6slPIGiOvobJ9gjfmJl6UEZZXFiZeIlqZgLHuwaC9VSaaXG9D4BixJWm0xQ9NjHzRKyj89NJtPFDqUGYQDeMzoZAW8_Y2-"
-                />
-              </AspectRatio>
+                
+              /> */}
 
-              <IconButton
+            {/* <AspectRatio ratio={16 / 9}>
+              <iframe
+                title="naruto"
+                src="https://5c632b7d.sibforms.com/serve/MUIEAGVXYJIgZS8wI77_cIgQc1Xoh-3LZHWOpQpF_HmDWr4UBmRwZWvWTnz3cKu0YTbBa0nfnvwwI_Ts9Kc7q5OwlkqzTjq19thAg7SGovor8BLj_e6slPIGiOvobJ9gjfmJl6UEZZXFiZeIlqZgLHuwaC9VSaaXG9D4BixJWm0xQ9NjHzRKyj89NJtPFDqUGYQDeMzoZAW8_Y2-"
+              />
+            </AspectRatio> */}
+
+            {/* <IconButton
                 bg={useColorModeValue("green.400", "green.800")}
                 color={useColorModeValue("white", "gray.800")}
                 _hover={{
@@ -146,10 +148,19 @@ export default function Footer() {
                 }}
                 aria-label="Subscribe"
                 icon={<BiMailSend />}
-              />
-            </Stack>
+              /> */}
+            {/* </Stack> */}
           </Stack>
         </SimpleGrid>
+        <iframe
+          width="100%"
+          height="305"
+          src="https://5c632b7d.sibforms.com/serve/MUIEAMoaCTNndiUId5qaINpzkRE9IM-OPb8m0eSNoPPW5K4MOP4_P5-lQEUE2KXa8Aw0m-6TwNUXyY7JUnJV-JVxcYDbgQ82uGegNpODYgqVj6w_17B1WTR63O_BNyd-iH0aToMBuuW9vXTSikQkmZnHPCUCpuHQKXEvV3wQX0GIQkWqQwRJblQbBQlJbl_9hP5mvKcvk8cbRTwF"
+          // frameborder="0"
+          scrolling="auto"
+          // allowfullscreen
+          // style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"
+        ></iframe>
       </Container>
     </Box>
   );
